@@ -1,0 +1,19 @@
+{
+    "name": "sinarahmannejad/laravel-voipms",
+    "description": "VOIP Ms API for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sinarahmannejad\\LaravelVoipMs\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sina Rahmannejad",
+            "email": "info@sinarahmannejad.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
