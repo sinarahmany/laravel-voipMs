@@ -4,6 +4,18 @@
 Laravel Voip Ms API Integration
 
 
+## Installation
+
+Begin by installing this package through Composer. Run this command from the Terminal:
+
+
+
+```bash
+  composer require sinarahmannejad/laravel-voipms
+  php artisan vendor:publish --provider="Sinarahmannejad\LaravelVoipMs\VoipMsServiceProvider"
+
+```
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
