@@ -3,6 +3,9 @@
 
 Laravel Voip Ms API Integration
 
+[![Total Downloads](https://img.shields.io/packagist/dt/sinarahmannejad/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
+[![Latest Stable Version](https://img.shields.io/packagist/v/sinarahmannejad/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
+[![License](https://img.shields.io/packagist/l/sinarahmannejad/laravel-voipms?style=flat)](#license)
 
 ## Installation
 
