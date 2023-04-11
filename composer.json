@@ -2,6 +2,7 @@
     "name": "sinarahmannejad/laravel-voipms",
     "description": "VOIP Ms API for Laravel",
     "type": "library",
+    "keywords": ["sms", "voipms", "laravel", "api"],
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -15,5 +16,14 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sinarahmannejad\\LaravelVoipMs\\VoipMsServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    }
 }
