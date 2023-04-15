@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinarahmannejad\LaravelVoipMs\Facades;
+namespace Sinarahmany\LaravelVoipMs\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

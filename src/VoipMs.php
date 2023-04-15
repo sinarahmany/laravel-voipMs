@@ -1,9 +1,10 @@
 <?php
 
-namespace Sinarahmannejad\LaravelVoipMs;
+namespace Sinarahmany\LaravelVoipMs;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class VoipMs
 {
@@ -29,23 +30,20 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
-        $request = config('voipms.api_url') .
-            '?api_username=' . config('voipms.username') .
-            '&api_password=' . config('voipms.password') .
-            '&method=' . $method .
-            '&did=' . config('voipms.did') .
-            '&dst=' . $dst .
-            '&message=' . $message;
+        $response = Http::withUserAgent('ReqBin Curl Client/1.0')
+            ->get(config('voipms.api_url'), [
+                'api_username' => config('voipms.username'),
+                'api_password' => config('voipms.password'),
+                'method' => 'getMMS',
+                'did' => config('voipms.did'),
+                'dst' => $dst,
+                'message' => $message
+            ]);
 
-        $jsonResponse = Http::withHeaders([
-            'User-Agent: ReqBin Curl Client/1.0'
-        ])
-            ->get($request);
-
-        if ($jsonResponse['status'] === 'success') {
-            return $jsonResponse['sms'];
+        if ($response['status'] === 'success') {
+            return $response['sms'];
         } else {
-            throw new Exception($jsonResponse['status']);
+            throw new Exception($response['status']);
         }
     }
 
@@ -54,12 +52,13 @@ class VoipMs
      *
      * @param int $dst The DID to retrieve SMS messages for.
      * @param string $message The message
+     * @param string $media The message
      *
      * @return array The array of SMS messages for the specified DID.
      *
      * @throws Exception if the API response indicates an error.
      */
-    public static function sendMMS(int $dst, string $message): string
+    public static function sendMMS(int $dst, string $message, string $mediaUrl = null): string
     {
         $method = 'sendMMS';
 
@@ -71,23 +70,21 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
-        $request = config('voipms.api_url') .
-            '?api_username=' . config('voipms.username') .
-            '&api_password=' . config('voipms.password') .
-            '&method=' . $method .
-            '&did=' . config('voipms.did') .
-            '&dst=' . $dst .
-            '&message=' . $message;
+        $response = Http::withUserAgent('ReqBin Curl Client/1.0')
+            ->get(config('voipms.api_url'), [
+                'api_username' => config('voipms.username'),
+                'api_password' => config('voipms.password'),
+                'method' => 'getMMS',
+                'did' => config('voipms.did'),
+                'dst' => $dst,
+                'message' => $message,
+                'media1' => $mediaUrl,
+            ]);
 
-        $jsonResponse = Http::withHeaders([
-            'User-Agent: ReqBin Curl Client/1.0'
-        ])
-            ->get($request);
-
-        if ($jsonResponse['status'] === 'success') {
-            return $jsonResponse['sms'];
+        if ($response['status'] === 'success') {
+            return $response['mms'];
         } else {
-            throw new Exception($jsonResponse['status']);
+            throw new Exception($response['status']);
         }
     }
 
@@ -95,76 +92,91 @@ class VoipMs
     /**
      * Retrieves a list of SMS messages by: date range, sms type, DID number, and contact.
      *
-     * @param int $dst The DID to retrieve SMS messages for.
-     * @param string $message The message
-     *
+     * @param array|null $params
      * @return array The array of SMS messages for the specified DID.
      *
      * @throws Exception if the API response indicates an error.
      */
-    public static function getSMS(int $id = null, string $from = null, string $to = null, bool $type = true, int $contactNo = null, int $limit = null): Array
+    public static function getSMS(array|null $params = ['id', 'from', 'to', 'type', 'contact', 'limit']): array
     {
         $method = 'getSMS';
 
-        $request = config('voipms.api_url') .
-            '?api_username=' . config('voipms.username') .
-            '&api_password=' . config('voipms.password') .
-            '&method=' . $method .
-            '&did=' . config('voipms.did') .
-            '&sms=' . $id .
-            '&from=' . $from .
-            '&to=' . $to .
-            '&type=' . $type .
-            '&contact=' . $contactNo .
-            '&limit=' . $limit;
+        $validator = Validator::make($params, [
+            'id' => 'nullable|int',
+            'from' => 'nullable|date',
+            'to' => 'nullable|date',
+            'type' => 'nullable|numeric',
+            'contact' => 'nullable|numeric',
+            'limit' => 'nullable|numeric'
+        ]);
+        if ($validator->fails()) {
+            throw new Exception($validator->messages());
+        }
 
-        $jsonResponse = Http::withHeaders([
-            'User-Agent: ReqBin Curl Client/1.0'
-        ])
-            ->get($request);
+        $response = Http::withUserAgent('ReqBin Curl Client/1.0')
+            ->get(config('voipms.api_url'), [
+                'api_username' => config('voipms.username'),
+                'api_password' => config('voipms.password'),
+                'method' => 'getMMS',
+                'did' => config('voipms.did'),
+                'sms' => $params['id'] ?? null,
+                'from' => $params['from'] ?? null,
+                'to' => $params['to'] ?? null,
+                'type' => $params['type'] ?? null,
+                'contact' => $params['contact'] ?? null,
+                'limit' => $params['limit'] ?? null,
+            ]);
 
-        if ($jsonResponse['status'] === 'success') {
-            return $jsonResponse['sms'];
+        if ($response['status'] === 'success') {
+            return $response['sms'];
         } else {
-            throw new Exception($jsonResponse['status']);
+            throw new Exception($response['status']);
         }
     }
 
     /**
      * Retrieves a list of MMS messages by: date range, sms type, DID number, and contact.
      *
-     * @param int $dst The DID to retrieve SMS messages for.
-     * @param string $message The message
+     * @param array|null $params The params to filter messages
      *
      * @return array The array of SMS messages for the specified DID.
      *
      * @throws Exception if the API response indicates an error.
      */
-    public static function getMMS(int $id = null, string $from = null, string $to = null, bool $type = true, int $contactNo = null, int $limit = null): Array
+    public static function getMMS(array|null $params = ['id', 'from', 'to', 'type', 'contact', 'limit']): array
     {
         $method = 'getMMS';
 
-        $request = config('voipms.api_url') .
-            '?api_username=' . config('voipms.username') .
-            '&api_password=' . config('voipms.password') .
-            '&method=' . $method .
-            '&did=' . config('voipms.did') .
-            '&sms=' . $id .
-            '&from=' . $from .
-            '&to=' . $to .
-            '&type=' . $type .
-            '&contact=' . $contactNo .
-            '&limit=' . $limit;
+        $validator = Validator::make($params, [
+            'id' => 'nullable|int',
+            'from' => 'nullable|date',
+            'to' => 'nullable|date',
+            'type' => 'nullable|numeric',
+            'contact' => 'nullable|numeric',
+            'limit' => 'nullable|numeric'
+        ]);
+        if ($validator->fails()) {
+            throw new Exception($validator->messages());
+        }
 
-        $jsonResponse = Http::withHeaders([
-            'User-Agent: ReqBin Curl Client/1.0'
-        ])
-            ->get($request);
+        $response = Http::withUserAgent('ReqBin Curl Client/1.0')
+            ->get(config('voipms.api_url'), [
+                'api_username' => config('voipms.username'),
+                'api_password' => config('voipms.password'),
+                'method' => 'getMMS',
+                'did' => config('voipms.did'),
+                'sms' => $params['id'] ?? null,
+                'from' => $params['from'] ?? null,
+                'to' => $params['to'] ?? null,
+                'type' => $params['type'] ?? null,
+                'contact' => $params['contact'] ?? null,
+                'limit' => $params['limit'] ?? null,
+            ]);
 
-        if ($jsonResponse['status'] === 'success') {
-            return $jsonResponse['sms'];
+        if ($response['status'] === 'success') {
+            return $response['mms'];
         } else {
-            throw new Exception($jsonResponse['status']);
+            throw new Exception($response['status']);
         }
     }
 }
