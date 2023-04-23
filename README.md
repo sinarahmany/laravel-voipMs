@@ -3,9 +3,9 @@
 
 Laravel Voip Ms API Integration  - the perfect wingman for your Laravel project to connect with your VoIP Ms crush!
 
-[![Total Downloads](https://img.shields.io/packagist/dt/sinarahmannejad/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
-[![Latest Stable Version](https://img.shields.io/packagist/v/sinarahmannejad/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
-[![License](https://img.shields.io/packagist/l/sinarahmannejad/laravel-voipms?style=flat)](#license)
+[![Total Downloads](https://img.shields.io/packagist/dt/sinarahmany/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
+[![Latest Stable Version](https://img.shields.io/packagist/v/sinarahmany/laravel-voipms.svg?style=flat)](https://packagist.org/packages/sinarahmannejad/laravel-voipm)
+[![License](https://img.shields.io/packagist/l/sinarahmany/laravel-voipms?style=flat)](#license)
 
 ## Installation
 
@@ -15,7 +15,7 @@ Begin by installing this package through Composer. Run this command from the Ter
 
 ```bash
   composer require sinarahmany/laravel-voipms
-  php artisan vendor:publish
+  php artisan vendor:publish --provider="Sinarahmany\LaravelVoipMs\VoipMsServiceProvider"
 
 ```
 

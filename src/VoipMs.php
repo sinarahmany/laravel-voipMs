@@ -30,15 +30,16 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
+        $query  = config('voipms.api_url').
+            '?api_username=' . config('voipms.username') .
+            '&api_password=' . config('voipms.password') .
+            '&method=' . $method .
+            '&did=' . config('voipms.did') .
+            '&dst=' . $dst .
+            '&message=' . $message;
+
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
-            ->get(config('voipms.api_url'), [
-                'api_username' => config('voipms.username'),
-                'api_password' => config('voipms.password'),
-                'method' => 'getMMS',
-                'did' => config('voipms.did'),
-                'dst' => $dst,
-                'message' => $message
-            ]);
+            ->get($query);
 
         if ($response['status'] === 'success') {
             return $response['sms'];
@@ -70,16 +71,17 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
+        $query  = config('voipms.api_url').
+            '?api_username=' . config('voipms.username') .
+            '&api_password=' . config('voipms.password') .
+            '&method=' . $method .
+            '&did=' . config('voipms.did') .
+            '&dst=' . $dst .
+            '&message=' . $message .
+            '&media1' . $mediaUrl;
+
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
-            ->get(config('voipms.api_url'), [
-                'api_username' => config('voipms.username'),
-                'api_password' => config('voipms.password'),
-                'method' => 'getMMS',
-                'did' => config('voipms.did'),
-                'dst' => $dst,
-                'message' => $message,
-                'media1' => $mediaUrl,
-            ]);
+            ->get($query);
 
         if ($response['status'] === 'success') {
             return $response['mms'];
@@ -113,19 +115,21 @@ class VoipMs
             throw new Exception($validator->messages());
         }
 
+
+        $query  = config('voipms.api_url').
+        '?api_username=' . config('voipms.username') .
+        '&api_password=' . config('voipms.password') .
+        '&method=' . $method .
+        '&did=' . config('voipms.did') .
+        '&sms=' . $params['id'] ?? null .
+        '&from' . $params['from'] ?? null .
+        '&to' . $params['to'] ?? null .
+        '&type' . $params['type'] ?? null .
+        '&contact' . $params['contact'] ?? null .
+        '&limit' . $params['limit'] ?? null;
+
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
-            ->get(config('voipms.api_url'), [
-                'api_username' => config('voipms.username'),
-                'api_password' => config('voipms.password'),
-                'method' => 'getMMS',
-                'did' => config('voipms.did'),
-                'sms' => $params['id'] ?? null,
-                'from' => $params['from'] ?? null,
-                'to' => $params['to'] ?? null,
-                'type' => $params['type'] ?? null,
-                'contact' => $params['contact'] ?? null,
-                'limit' => $params['limit'] ?? null,
-            ]);
+            ->get($query);
 
         if ($response['status'] === 'success') {
             return $response['sms'];
@@ -159,19 +163,20 @@ class VoipMs
             throw new Exception($validator->messages());
         }
 
+        $query  = config('voipms.api_url').
+        '?api_username=' . config('voipms.username') .
+        '&api_password=' . config('voipms.password') .
+        '&method=' . $method .
+        '&did=' . config('voipms.did') .
+        '&sms=' . $params['id'] ?? null .
+        '&from' . $params['from'] ?? null .
+        '&to' . $params['to'] ?? null .
+        '&type' . $params['type'] ?? null .
+        '&contact' . $params['contact'] ?? null .
+        '&limit' . $params['limit'] ?? null;
+
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
-            ->get(config('voipms.api_url'), [
-                'api_username' => config('voipms.username'),
-                'api_password' => config('voipms.password'),
-                'method' => 'getMMS',
-                'did' => config('voipms.did'),
-                'sms' => $params['id'] ?? null,
-                'from' => $params['from'] ?? null,
-                'to' => $params['to'] ?? null,
-                'type' => $params['type'] ?? null,
-                'contact' => $params['contact'] ?? null,
-                'limit' => $params['limit'] ?? null,
-            ]);
+            ->get($query);
 
         if ($response['status'] === 'success') {
             return $response['mms'];
