@@ -30,7 +30,7 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
-        $query  = config('voipms.api_url').
+        $query = config('voipms.api_url') .
             '?api_username=' . config('voipms.username') .
             '&api_password=' . config('voipms.password') .
             '&method=' . $method .
@@ -71,7 +71,7 @@ class VoipMs
             return 'Text can not be empty!';
         }
 
-        $query  = config('voipms.api_url').
+        $query = config('voipms.api_url') .
             '?api_username=' . config('voipms.username') .
             '&api_password=' . config('voipms.password') .
             '&method=' . $method .
@@ -116,17 +116,17 @@ class VoipMs
         }
 
 
-        $query  = config('voipms.api_url').
-        '?api_username=' . config('voipms.username') .
-        '&api_password=' . config('voipms.password') .
-        '&method=' . $method .
-        '&did=' . config('voipms.did') .
-        '&sms=' . $params['id'] ?? null .
-        '&from' . $params['from'] ?? null .
-        '&to' . $params['to'] ?? null .
-        '&type' . $params['type'] ?? null .
-        '&contact' . $params['contact'] ?? null .
-        '&limit' . $params['limit'] ?? null;
+        $query = config('voipms.api_url') .
+            '?api_username=' . config('voipms.username') .
+            '&api_password=' . config('voipms.password') .
+            '&method=' . $method .
+            '&did=' . config('voipms.did') .
+            '&sms=' . ($params['id'] ?? null) .
+            '&from' . ($params['from'] ?? null) .
+            '&to' . ($params['to'] ?? null) .
+            '&type' . ($params['type'] ?? null) .
+            '&contact' . ($params['contact'] ?? null) .
+            '&limit' . ($params['limit'] ?? null);
 
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
             ->get($query);
@@ -163,17 +163,17 @@ class VoipMs
             throw new Exception($validator->messages());
         }
 
-        $query  = config('voipms.api_url').
-        '?api_username=' . config('voipms.username') .
-        '&api_password=' . config('voipms.password') .
-        '&method=' . $method .
-        '&did=' . config('voipms.did') .
-        '&sms=' . $params['id'] ?? null .
-        '&from' . $params['from'] ?? null .
-        '&to' . $params['to'] ?? null .
-        '&type' . $params['type'] ?? null .
-        '&contact' . $params['contact'] ?? null .
-        '&limit' . $params['limit'] ?? null;
+        $query = config('voipms.api_url') .
+            '?api_username=' . config('voipms.username') .
+            '&api_password=' . config('voipms.password') .
+            '&method=' . $method .
+            '&did=' . config('voipms.did') .
+            '&sms=' . ($params['id'] ?? null) .
+            '&from' . ($params['from'] ?? null) .
+            '&to' . ($params['to'] ?? null) .
+            '&type' . ($params['type'] ?? null) .
+            '&contact' . ($params['contact'] ?? null) .
+            '&limit' . ($params['limit'] ?? null);
 
         $response = Http::withUserAgent('ReqBin Curl Client/1.0')
             ->get($query);
