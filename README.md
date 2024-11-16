@@ -67,7 +67,7 @@ Thank you for using this development package, and happy coding!
 
 ## Feedback
 
-If you have any feedback, please reach out to us at info@sinarahmannejad.com
+If you have any feedback, please reach out to us at [sinarahmannejad.com](https://sinarahmannejad.com).
 
 
 ## Credits
